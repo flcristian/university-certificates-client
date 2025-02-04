@@ -1,0 +1,12 @@
+services:
+  client:
+    restart: unless-stopped
+    container_name: ${COMPOSE_PROJECT_NAME:-app}-client
+    image: ${DOCKER_USER}/${COMPOSE_PROJECT_NAME}-client:latest
+    environment:
+      - USER_ID=${USER_ID:-1000}
+      - GROUP_ID=${GROUP_ID:-1000}
+      - USERNAME=${USERNAME:-aspnet}
+      - GROUPNAME=${PASSWORD:-aspnet}
+    ports:
+      - "${CLIENT_PORT:-3000}:80"
