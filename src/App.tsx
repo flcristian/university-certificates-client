@@ -1,14 +1,14 @@
-import React from 'react';
-import './App.css';
+import { Toaster } from 'sonner'
+import './App.css'
+import SecretaryPage from './admin/SecretaryPage'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>Welcome!</p>
-      </header>
-    </div>
-  );
+    <>
+      <SecretaryPage/>
+      <Toaster position='top-right' theme='dark' duration={3000}/>
+    </>
+  )
 }
 
-export default App;
+export default App

@@ -50,7 +50,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/
 
 # Copy built React app
-COPY --from=build /usr/src/app/build/ /usr/share/nginx/html/
+COPY --from=build /usr/src/app/dist/ /usr/share/nginx/html/
 
 # Adjust permissions
 RUN chown -R ${USERNAME}:${GROUPNAME} /usr/share/nginx/html \
