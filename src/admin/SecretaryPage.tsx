@@ -1,10 +1,9 @@
 import CertificateTemplatePage from "./certificate-templates/CertificateTemplatePage";
-import SecretaryNavigation from "./SecretaryNavigation";
 
 export default function SecretaryPage() {
     return (
-        <div className="bg-neutral-800 flex items-start h-full">
-            <div className="w-full p-8 flex flex-col gap-8">
+        <div className="flex items-start h-full bg-neutral-800">
+            <div className="flex flex-col w-full min-h-screen gap-8 p-8">
                 <CertificateTemplatePage />
             </div>
         </div>

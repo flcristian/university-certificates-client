@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { CertificateTemplate } from "../../schemas/CertificateTemplateSchema";
-import { deleteCertificateTemplate, getAllCertificateTemplates, updateCertificateTemplate } from "../../services/CertificateTemplatesService";
 import CertificateTemplateForm from "./CertificateTemplateForm";
 import CertificateTemplateUpdateForm from "./CertificateTemplateUpdateForm";
 import { Button } from "../../components/ui/button";
@@ -9,20 +8,9 @@ import { DataTable } from "../../components/ui/data-table";
 import { Switch } from "../../components/ui/switch";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-  } from "../../components/ui/alert-dialog"
+import { PencilIcon } from "@heroicons/react/24/outline";
 import { EyeIcon } from "lucide-react";
-  
+import { getAllCertificateTemplates, updateCertificateTemplate } from "../../services/CertificateTemplatesService";
 
 export default function CertificateTemplatePage() {
     const [currentForm, setCurrentForm] = useState<'create' | 'update' | 'none'>('none');
@@ -41,6 +29,11 @@ export default function CertificateTemplatePage() {
             setIsLoading(false);
         }
     };
+
+    const updateTemplatesAfterFormSubmittion = async () => {
+        await fetchTemplates();
+        setCurrentForm('none');
+    }
     
     const columns: ColumnDef<CertificateTemplate>[] = [
         {
@@ -59,7 +52,7 @@ export default function CertificateTemplatePage() {
             accessorKey: "active",
             header: "Active",
             cell: ({ row }) => (
-                <div className="cursor-pointer flex items-center gap-2">
+                <div className="flex items-center gap-2 cursor-pointer">
                     <Switch className="cursor-pointer" checked={row.getValue("active")} onCheckedChange={async (checked) => {
                         const formData = new FormData();
                         formData.append('id', row.getValue("id"));
@@ -67,12 +60,12 @@ export default function CertificateTemplatePage() {
                         try {
                             await updateCertificateTemplate(formData)
                             toast.success(`Template ${checked ? 'activated' : 'deactivated'} successfully`)
-                          } catch (error: unknown) {
+                        } catch (error: unknown) {
                             if (error instanceof AxiosError && error.response) {
-                              toast.error(error.response.data)
+                                toast.error(error.response.data)
                             }
                             toast.error(`Error ${checked ? 'activating' : 'deactivating'} template`)
-                          }
+                        }
                         await fetchTemplates();
                     }}/>
                 </div>
@@ -96,7 +89,7 @@ export default function CertificateTemplatePage() {
                     
                     {/* <AlertDialog>
                         <AlertDialogTrigger>
-                            <div className="cursor-pointer hover:bg-white transition-all p-2 rounded-md hover:text-black">
+                            <div className="p-2 transition-all rounded-md cursor-pointer hover:bg-white hover:text-black">
                                 <TrashIcon className="w-4"/>
                             </div>
                         </AlertDialogTrigger>
@@ -134,25 +127,25 @@ export default function CertificateTemplatePage() {
         fetchTemplates();
     }, []);
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-    
     return (
         <div className="flex flex-col gap-4 min-h-screen w-[700px]">
-            <h1 className="font-bold drop-shadow-lg text-2xl text-white">Certificate Templates</h1>
-            <div className="self-start flex gap-4">
+            <h1 className="text-2xl font-bold text-white drop-shadow-lg">Certificate Templates</h1>
+            <div className="flex self-start gap-4">
                 <Button variant="outline" onClick={() => setCurrentForm('create')}>Upload Template</Button>
             </div>
-            <div className="w-full">
-                <DataTable
-                    columns={columns} 
-                    data={certificateTemplates} />
-            </div>
+            {error && <div className="text-red-500">{error}</div>}
+            {isLoading && <div>Loading...</div>}
+            {!error && !isLoading &&
+                <div className="w-full">
+                    <DataTable
+                        columns={columns}
+                        data={certificateTemplates} />
+                </div>}
             {currentForm !== 'none' && (
                 <div className="relative w-fit">
-                    <h1 className="text-white text-4xl absolute right-4 top-1 cursor-pointer" onClick={() => setCurrentForm('none')}>x</h1>
-                    {currentForm === 'create' && <CertificateTemplateForm/>}
-                    {currentForm === 'update' && <CertificateTemplateUpdateForm id={selectedTemplate!.getValue("id")} initialDescription={selectedTemplate!.getValue("description")} />}
+                    <h1 className="absolute text-4xl text-white cursor-pointer right-4 top-1" onClick={() => setCurrentForm('none')}>x</h1>
+                    {currentForm === 'create' && <CertificateTemplateForm onSuccess={updateTemplatesAfterFormSubmittion}/>}
+                    {currentForm === 'update' && <CertificateTemplateUpdateForm onSuccess={updateTemplatesAfterFormSubmittion} id={selectedTemplate!.getValue("id")} initialDescription={selectedTemplate!.getValue("description")} />}
                 </div>
             )}
         </div>

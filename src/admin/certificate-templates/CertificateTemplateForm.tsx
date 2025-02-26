@@ -9,7 +9,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/ca
 import { toast } from "sonner"
 import { createCertificateTemplate } from "../../services/CertificateTemplatesService"
 
-export default function CertificateTemplateForm() {
+export default function CertificateTemplateForm({ onSuccess }: { onSuccess: () => Promise<void> }) {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [file, setFile] = useState<File | null>(null)
@@ -30,6 +30,7 @@ export default function CertificateTemplateForm() {
       setDescription("")
       setFile(null)
       toast.success("Template uploaded successfully")
+      await onSuccess()
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message)
@@ -42,14 +43,14 @@ export default function CertificateTemplateForm() {
   return (
     <Card className="w-[450px] bg-neutral-900 border-zinc-800">
       <CardHeader>
-        <CardTitle className="text-zinc-200 flex items-center justify-center gap-2">
+        <CardTitle className="flex items-center justify-center gap-2 text-zinc-200">
           Upload Certificate Template
         </CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-zinc-200 flex gap-1 items-center">
+            <Label htmlFor="name" className="flex items-center gap-1 text-zinc-200">
               <DocumentIcon className="w-4 h-4" />
               Template Name
             </Label>
@@ -64,7 +65,7 @@ export default function CertificateTemplateForm() {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-zinc-200 flex gap-1 items-center">
+            <Label htmlFor="description" className="flex items-center gap-1 text-zinc-200">
               <InformationCircleIcon className="w-4 h-4" />
               Description (Optional)
             </Label>
@@ -73,12 +74,12 @@ export default function CertificateTemplateForm() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter description"
-              className="bg-neutral-800 text-zinc-300 border-zinc-700 placeholder:text-zinc-600 resize-none h-24"
+              className="h-24 resize-none bg-neutral-800 text-zinc-300 border-zinc-700 placeholder:text-zinc-600"
             />
           </div>
           
-          <div className="space-y-2 flex flex-col gap-2 ">
-            <Label htmlFor="file" className="text-zinc-200 flex gap-1 items-center">
+          <div className="flex flex-col gap-2 space-y-2 ">
+            <Label htmlFor="file" className="flex items-center gap-1 text-zinc-200">
               <ArrowUpTrayIcon className="w-4 h-4" />
               Template File
             </Label>
@@ -93,11 +94,11 @@ export default function CertificateTemplateForm() {
               />
               <label
                 htmlFor="file"
-                className="bg-white text-black rounded-lg px-4 py-2 cursor-pointer"
+                className="px-4 py-2 text-black bg-white rounded-lg cursor-pointer"
               >
                 Choose File
               </label>
-              <span className="text-zinc-300 ml-2">
+              <span className="ml-2 text-zinc-300">
                 {file ? file.name : 'No file chosen'}
               </span>
             </div>

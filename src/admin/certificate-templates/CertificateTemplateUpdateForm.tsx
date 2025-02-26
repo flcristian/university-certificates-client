@@ -10,10 +10,12 @@ import { updateCertificateTemplate } from "../../services/CertificateTemplatesSe
 
 export default function CertificateTemplateUpdateForm({ 
   id,
-  initialDescription
+  initialDescription,
+  onSuccess
 }: {
   id: number,
-  initialDescription: string
+  initialDescription: string,
+  onSuccess: () => Promise<void>
 }) {
   const [description, setDescription] = useState(initialDescription)
   const [file, setFile] = useState<File | null>(null)
@@ -48,6 +50,7 @@ export default function CertificateTemplateUpdateForm({
       setFile(null)
       setDescription("")
       toast.success("Template updated successfully")
+      await onSuccess()
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message)
@@ -60,17 +63,17 @@ export default function CertificateTemplateUpdateForm({
   return (
     <Card className="w-[450px] bg-neutral-900 border-zinc-800">
       <CardHeader>
-        <CardTitle className="text-zinc-200 text-center">
+        <CardTitle className="text-center text-zinc-200">
           Edit Certificate Template
         </CardTitle>
-        <CardDescription className="text-zinc-400 text-center text-lg">
+        <CardDescription className="text-lg text-center text-zinc-400">
           {"Update Certificate Template | ID: " + id}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-zinc-200 flex gap-1 items-center">
+            <Label htmlFor="description" className="flex items-center gap-1 text-zinc-200">
               <InformationCircleIcon className="w-4 h-4" />
               Description (Optional)
             </Label>
@@ -79,12 +82,12 @@ export default function CertificateTemplateUpdateForm({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter description"
-              className="bg-neutral-800 text-zinc-300 border-zinc-700 placeholder:text-zinc-600 resize-none h-24"
+              className="h-24 resize-none bg-neutral-800 text-zinc-300 border-zinc-700 placeholder:text-zinc-600"
             />
           </div>
 
-          <div className="space-y-2 flex flex-col gap-2">
-            <Label htmlFor="file" className="text-zinc-200 flex gap-1 items-center">
+          <div className="flex flex-col gap-2 space-y-2">
+            <Label htmlFor="file" className="flex items-center gap-1 text-zinc-200">
               <ArrowUpTrayIcon className="w-4 h-4" />
               Template File
             </Label>
@@ -98,11 +101,11 @@ export default function CertificateTemplateUpdateForm({
             />
               <label
                 htmlFor="file"
-                className="bg-white text-black rounded-lg px-4 py-2 cursor-pointer"
+                className="px-4 py-2 text-black bg-white rounded-lg cursor-pointer"
               >
                 Choose File
               </label>
-              <span className="text-zinc-300 ml-2">
+              <span className="ml-2 text-zinc-300">
                 {file ? file.name : 'No file chosen'}
               </span>
             </div>
