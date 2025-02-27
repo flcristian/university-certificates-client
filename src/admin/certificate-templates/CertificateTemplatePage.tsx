@@ -11,6 +11,7 @@ import { AxiosError } from "axios";
 import { PencilIcon } from "@heroicons/react/24/outline";
 import { EyeIcon } from "lucide-react";
 import { getAllCertificateTemplates, updateCertificateTemplate } from "../../services/CertificateTemplatesService";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../../components/ui/hover-card";
 
 export default function CertificateTemplatePage() {
     const [currentForm, setCurrentForm] = useState<'create' | 'update' | 'none'>('none');
@@ -47,6 +48,19 @@ export default function CertificateTemplatePage() {
         {
             accessorKey: "description",
             header: "Description",
+            cell: ({ row }) => {
+                const description = row.getValue("description") as string;
+                return (
+                    <HoverCard>
+                        <HoverCardTrigger>{description.substring(0, 30)}</HoverCardTrigger>
+                        <HoverCardContent className="w-48">
+                            <p className="text-sm whitespace-normal break-words">
+                                {description}
+                            </p>
+                        </HoverCardContent>
+                    </HoverCard>
+                );
+            }
         },
         {
             accessorKey: "active",

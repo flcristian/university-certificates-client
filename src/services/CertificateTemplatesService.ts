@@ -1,7 +1,8 @@
 import { AxiosError } from "axios";
 import axiosInstance from "../config/axiosConfig";
+import { CertificateTemplate } from "../schemas/CertificateTemplateSchema";
 
-export const getAllCertificateTemplates = async () => {
+export const getAllCertificateTemplates = async (): Promise<CertificateTemplate[]> => {
     try {
         const response = await axiosInstance.get('CertificateTemplates/all');
         return response.data;
@@ -14,7 +15,7 @@ export const getAllCertificateTemplates = async () => {
     }
 }
 
-export const createCertificateTemplate = async (formData: FormData) => {
+export const createCertificateTemplate = async (formData: FormData): Promise<CertificateTemplate> => {
     try {
         const response = await axiosInstance.post('CertificateTemplates/create', formData, {
             headers: {
@@ -32,7 +33,7 @@ export const createCertificateTemplate = async (formData: FormData) => {
     }
 };
 
-export const updateCertificateTemplate = async (formData: FormData) => {
+export const updateCertificateTemplate = async (formData: FormData): Promise<CertificateTemplate> => {
     try {
         const response = await axiosInstance.put('CertificateTemplates/update', formData, {
             headers: {
@@ -51,7 +52,7 @@ export const updateCertificateTemplate = async (formData: FormData) => {
 };
 
 // SOFT DELETES - basically an update where it sets the active field to false
-export const deleteCertificateTemplate = async (id: number) => {
+export const deleteCertificateTemplate = async (id: number): Promise<CertificateTemplate> => {
     try {
         const response = await axiosInstance.delete(`CertificateTemplates/delete/${id}`);
         return response.data;

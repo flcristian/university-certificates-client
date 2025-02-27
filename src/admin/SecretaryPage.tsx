@@ -1,11 +1,19 @@
-import CertificateTemplatePage from "./certificate-templates/CertificateTemplatePage";
+import { SidebarProvider } from "../components/ui/sidebar";
+import { SecretarySidebar } from "./SecretarySidebar";
 
-export default function SecretaryPage() {
+interface SecretaryPageProps {
+    page: React.ComponentType;
+}
+
+export default function SecretaryPage({page: PageComponent}: SecretaryPageProps) {
     return (
-        <div className="flex items-start h-full bg-neutral-800">
-            <div className="flex flex-col w-full min-h-screen gap-8 p-8">
-                <CertificateTemplatePage />
+        <SidebarProvider className="bg-neutral-800">
+            <div className="flex items-start h-full bg-neutral-800">
+                <SecretarySidebar/>
+                <div className="flex flex-col w-full min-h-screen gap-8 p-8">
+                    <PageComponent />
+                </div>
             </div>
-        </div>
+        </SidebarProvider>
     )
 }

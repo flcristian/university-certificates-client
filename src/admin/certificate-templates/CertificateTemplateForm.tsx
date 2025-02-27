@@ -75,6 +75,7 @@ export default function CertificateTemplateForm({ onSuccess }: { onSuccess: () =
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter description"
               className="h-24 resize-none bg-neutral-800 text-zinc-300 border-zinc-700 placeholder:text-zinc-600"
+              maxLength={256}
             />
           </div>
           
