@@ -2,7 +2,6 @@ import { Button } from "../components/ui/button";
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter,
     SidebarHeader,
 } from "../components/ui/sidebar"
 import { Link } from 'react-router-dom';
@@ -10,7 +9,7 @@ import { Link } from 'react-router-dom';
 export function SecretarySidebar() {
     return (
         <Sidebar>
-            <SidebarHeader className="bg-neutral-900 text-white font-bold text-center">
+            <SidebarHeader className="pt-4 bg-neutral-900 text-white text-xl font-semibold text-center">
                 Secretary Menu
             </SidebarHeader>
             <SidebarContent  className="bg-neutral-900 flex flex-col p-4">

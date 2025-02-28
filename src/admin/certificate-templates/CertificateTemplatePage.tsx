@@ -24,8 +24,15 @@ export default function CertificateTemplatePage() {
         try {
             const templates = await getAllCertificateTemplates();
             setCertificateTemplates(templates);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to fetch templates');
+        } catch (error: unknown) {
+            if(error instanceof AxiosError && error.response) {
+                setError(error.response.data);
+                toast.error(error.response.data);
+            }
+            else {
+                setError('Failed to retrieve certificate templates');
+                toast.error('Failed to retrieve certificate templates');
+            }
         } finally {
             setIsLoading(false);
         }
@@ -52,8 +59,8 @@ export default function CertificateTemplatePage() {
                 const description = row.getValue("description") as string;
                 return (
                     <HoverCard>
-                        <HoverCardTrigger>{description.substring(0, 30)}</HoverCardTrigger>
-                        <HoverCardContent className="w-48">
+                        <HoverCardTrigger className="cursor-pointer">{description.substring(0, 30)}</HoverCardTrigger>
+                        <HoverCardContent className="w-80 bg-zinc-900 text-zinc-100 border-2">
                             <p className="text-sm whitespace-normal break-words">
                                 {description}
                             </p>

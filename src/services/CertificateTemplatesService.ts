@@ -11,7 +11,7 @@ export const getAllCertificateTemplates = async (): Promise<CertificateTemplate[
         if(error instanceof AxiosError && error.response) {
             throw new Error(error.response.data);
         }
-        throw new Error('Error creating certificate template.');
+        throw new Error('Error retrieving certificate templates.');
     }
 }
 
@@ -47,7 +47,7 @@ export const updateCertificateTemplate = async (formData: FormData): Promise<Cer
         if(error instanceof AxiosError && error.response) {
             throw new Error(error.response.data);
         }
-        throw new Error('Error creating certificate template.');
+        throw new Error('Error updating certificate template.');
     }
 };
 
@@ -61,6 +61,6 @@ export const deleteCertificateTemplate = async (id: number): Promise<Certificate
         if(error instanceof AxiosError && error.response) {
             throw new Error(error.response.data);
         }
-        throw new Error('Error creating certificate template.');
+        throw new Error('Error (soft) deleting certificate template.');
     }
 };

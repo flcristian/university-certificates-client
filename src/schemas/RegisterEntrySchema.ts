@@ -14,4 +14,11 @@ export const registerEntrySchema = z.object({
     selectedTempalte: certificateTemplateSchema
 })
 
+export const denyRegisterEntryRequestSchema = z.object({
+    id: z.number(),
+    reviewed: z.boolean(),
+    accepted: z.boolean(),
+})
+
 export type RegisterEntry = z.infer<typeof registerEntrySchema>;
+export type DenyRegisterEntryRequest = z.infer<typeof denyRegisterEntryRequestSchema>;

@@ -8,7 +8,7 @@ interface SecretaryPageProps {
 export default function SecretaryPage({page: PageComponent}: SecretaryPageProps) {
     return (
         <SidebarProvider className="bg-neutral-800">
-            <div className="flex items-start h-full bg-neutral-800">
+            <div className="flex items-start w-full h-full bg-neutral-800">
                 <SecretarySidebar/>
                 <div className="flex flex-col w-full min-h-screen gap-8 p-8">
                     <PageComponent />
