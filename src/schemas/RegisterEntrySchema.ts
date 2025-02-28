@@ -20,5 +20,13 @@ export const denyRegisterEntryRequestSchema = z.object({
     accepted: z.boolean(),
 })
 
+export const acceptRegisterEntryRequestSchema = z.object({
+    id: z.number(),
+    reviewed: z.boolean(),
+    accepted: z.boolean(),
+    selectedTemplateId: z.number()
+})
+
 export type RegisterEntry = z.infer<typeof registerEntrySchema>;
 export type DenyRegisterEntryRequest = z.infer<typeof denyRegisterEntryRequestSchema>;
+export type AcceptRegisterEntryRequest = z.infer<typeof acceptRegisterEntryRequestSchema>;

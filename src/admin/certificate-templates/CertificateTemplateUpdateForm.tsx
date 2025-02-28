@@ -7,7 +7,6 @@ import { Button } from "../../components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "../../components/ui/card"
 import { toast } from "sonner"
 import { updateCertificateTemplate } from "../../services/CertificateTemplatesService"
-import { AxiosError } from "axios"
 
 export default function CertificateTemplateUpdateForm({ 
   id,
@@ -53,8 +52,8 @@ export default function CertificateTemplateUpdateForm({
       toast.success("Template updated successfully")
       await onSuccess()
     } catch (error: unknown) {
-      if (error instanceof AxiosError && error.response) {
-        toast.error(error.response.data)
+      if (error instanceof Error) {
+        toast.error(error.message)
       }
       else {
         toast.error("Failed to update the template")

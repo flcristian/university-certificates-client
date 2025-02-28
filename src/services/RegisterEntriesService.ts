@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import axiosInstance from "../config/axiosConfig";
-import { DenyRegisterEntryRequest, RegisterEntry } from "../schemas/RegisterEntrySchema";
+import { AcceptRegisterEntryRequest, DenyRegisterEntryRequest, RegisterEntry } from "../schemas/RegisterEntrySchema";
 
 export const getAllRegisterEntries = async (): Promise<RegisterEntry[]> => {
     try {
@@ -15,7 +15,7 @@ export const getAllRegisterEntries = async (): Promise<RegisterEntry[]> => {
     }
 }
 
-export const updateRegisterEntry = async (request: DenyRegisterEntryRequest): Promise<RegisterEntry> => {
+export const updateRegisterEntry = async (request: DenyRegisterEntryRequest | AcceptRegisterEntryRequest): Promise<RegisterEntry> => {
     try {
         const response = await axiosInstance.put('RegisterEntries/update', request, {
             headers: {

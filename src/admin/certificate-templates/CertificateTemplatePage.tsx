@@ -7,7 +7,6 @@ import { ColumnDef, Row } from "@tanstack/react-table"
 import { DataTable } from "../../components/ui/data-table";
 import { Switch } from "../../components/ui/switch";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
 import { PencilIcon } from "@heroicons/react/24/outline";
 import { EyeIcon } from "lucide-react";
 import { getAllCertificateTemplates, updateCertificateTemplate } from "../../services/CertificateTemplatesService";
@@ -25,13 +24,11 @@ export default function CertificateTemplatePage() {
             const templates = await getAllCertificateTemplates();
             setCertificateTemplates(templates);
         } catch (error: unknown) {
-            if(error instanceof AxiosError && error.response) {
-                setError(error.response.data);
-                toast.error(error.response.data);
+            if(error instanceof Error) {
+                setError(error.message);
             }
             else {
                 setError('Failed to retrieve certificate templates');
-                toast.error('Failed to retrieve certificate templates');
             }
         } finally {
             setIsLoading(false);
@@ -60,8 +57,8 @@ export default function CertificateTemplatePage() {
                 return (
                     <HoverCard>
                         <HoverCardTrigger className="cursor-pointer">{description.substring(0, 30)}</HoverCardTrigger>
-                        <HoverCardContent className="w-80 bg-zinc-900 text-zinc-100 border-2">
-                            <p className="text-sm whitespace-normal break-words">
+                        <HoverCardContent className="border-2 w-80 bg-zinc-900 text-zinc-100">
+                            <p className="text-sm break-words whitespace-normal">
                                 {description}
                             </p>
                         </HoverCardContent>
@@ -82,8 +79,8 @@ export default function CertificateTemplatePage() {
                             await updateCertificateTemplate(formData)
                             toast.success(`Template ${checked ? 'activated' : 'deactivated'} successfully`)
                         } catch (error: unknown) {
-                            if (error instanceof AxiosError && error.response) {
-                                toast.error(error.response.data)
+                            if (error instanceof Error) {
+                                toast.error(error.message)
                             }
                             toast.error(`Error ${checked ? 'activating' : 'deactivating'} template`)
                         }
@@ -155,7 +152,7 @@ export default function CertificateTemplatePage() {
                 <Button variant="outline" onClick={() => setCurrentForm('create')}>Upload Template</Button>
             </div>
             {error && <div className="text-red-500">{error}</div>}
-            {isLoading && <div>Loading...</div>}
+            {isLoading && <div className="text-zinc-100">Loading...</div>}
             {!error && !isLoading &&
                 <div className="w-full">
                     <DataTable

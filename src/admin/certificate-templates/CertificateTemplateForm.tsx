@@ -8,7 +8,6 @@ import { Button } from "../../components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/card"
 import { toast } from "sonner"
 import { createCertificateTemplate } from "../../services/CertificateTemplatesService"
-import { AxiosError } from "axios"
 
 export default function CertificateTemplateForm({ onSuccess }: { onSuccess: () => Promise<void> }) {
   const [name, setName] = useState("")
@@ -33,8 +32,8 @@ export default function CertificateTemplateForm({ onSuccess }: { onSuccess: () =
       toast.success("Template uploaded successfully")
       await onSuccess()
     } catch (error: unknown) {
-      if (error instanceof AxiosError && error.response) {
-        toast.error(error.response.data)
+      if (error instanceof Error) {
+        toast.error(error.message)
       }
       else {
         toast.error("Failed to upload the template")
