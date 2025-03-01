@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import axiosInstance from "../config/axiosConfig";
-import { AcceptRegisterEntryRequest, DenyRegisterEntryRequest, RegisterEntry } from "../schemas/RegisterEntrySchema";
+import { AcceptRegisterEntryRequest, CreateRegisterEntryRequest, DenyRegisterEntryRequest, RegisterEntry } from "../schemas/RegisterEntrySchema";
 
 export const getAllRegisterEntries = async (): Promise<RegisterEntry[]> => {
     try {
@@ -12,6 +12,24 @@ export const getAllRegisterEntries = async (): Promise<RegisterEntry[]> => {
             throw new Error(error.response.data);
         }
         throw new Error('Error retrieving register entries.');
+    }
+}
+
+export const createRegisterEntry = async (request: CreateRegisterEntryRequest): Promise<RegisterEntry> => {
+    try {
+        const response = await axiosInstance.post('RegisterEntries/create', request, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        
+        return response.data;
+    }
+    catch (error) {
+        if(error instanceof AxiosError && error.response) {
+            throw new Error(error.response.data);
+        }
+        throw new Error('Error creating register entry.');
     }
 }
 

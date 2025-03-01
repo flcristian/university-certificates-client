@@ -12,7 +12,7 @@ import { EyeIcon } from "lucide-react";
 import { getAllCertificateTemplates, updateCertificateTemplate } from "../../services/CertificateTemplatesService";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../../components/ui/hover-card";
 
-export default function CertificateTemplatePage() {
+export default function CertificateTemplatesPage() {
     const [currentForm, setCurrentForm] = useState<'create' | 'update' | 'none'>('none');
     const [selectedTemplate, setSelectedTemplate] = useState<Row<CertificateTemplate> | null>(null);
     const [certificateTemplates, setCertificateTemplates] = useState<CertificateTemplate[]>([]);

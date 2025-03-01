@@ -27,6 +27,13 @@ export const acceptRegisterEntryRequestSchema = z.object({
     selectedTemplateId: z.number()
 })
 
+export const createRegisterEntryRequestSchema = z.object({
+    studentSerialNumber: z.number(),
+    dateOfIssue: z.date(),
+    reason: z.string()
+})
+
 export type RegisterEntry = z.infer<typeof registerEntrySchema>;
 export type DenyRegisterEntryRequest = z.infer<typeof denyRegisterEntryRequestSchema>;
 export type AcceptRegisterEntryRequest = z.infer<typeof acceptRegisterEntryRequestSchema>;
+export type CreateRegisterEntryRequest = z.infer<typeof createRegisterEntryRequestSchema>;
