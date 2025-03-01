@@ -35,7 +35,7 @@ jobs:
         CLIENT_PORT=${{ secrets.CLIENT_PORT }}
         VITE_API_PORT=${{ secrets.VITE_API_PORT }}
         VITE_API_VERSION=${{ secrets.VITE_API_VERSION }}
-        VITE_API_ADDRESS={VITE_API_ADDRESS}
+        VITE_API_ADDRESS=${{ secrets.SSH_HOST_LOCAL_ADDRESS }}
         EOF
     
     - name: Build and push Docker image
@@ -105,8 +105,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
             cd client
-
-            sed -i "s|{VITE_API_ADDRESS}|$(hostname -I | awk '{print $1}')|g" .env
 
             sudo make clean
             sudo docker-compose pull
