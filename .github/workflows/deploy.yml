@@ -35,7 +35,7 @@ jobs:
         CLIENT_PORT=${{ secrets.CLIENT_PORT }}
         VITE_API_PORT=${{ secrets.VITE_API_PORT }}
         VITE_API_VERSION=${{ secrets.VITE_API_VERSION }}
-        VITE_API_ADDRESS=${{ secrets.SSH_HOST_LOCAL_ADDRESS }}
+        VITE_API_ADDRESS=${{ secrets.SSH_HOST }}
         EOF
     
     - name: Build and push Docker image
