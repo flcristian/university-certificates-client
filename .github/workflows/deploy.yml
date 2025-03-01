@@ -35,6 +35,7 @@ jobs:
         CLIENT_PORT=${{ secrets.CLIENT_PORT }}
         VITE_API_PORT=${{ secrets.VITE_API_PORT }}
         VITE_API_VERSION=${{ secrets.VITE_API_VERSION }}
+        VITE_API_ADDRESS=$(hostname -I | awk '{print $1}')
         EOF
     
     - name: Build and push Docker image
