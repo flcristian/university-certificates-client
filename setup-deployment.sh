@@ -10,7 +10,7 @@ if [ ! -f .env ]; then
     exit 1
 fi
 
-# Load environment variables
+# Load environment variables from .env
 set -a
 source .env
 set +a
@@ -22,17 +22,11 @@ USER_ID=$(echo "$USER_ID" | xargs)
 GROUP_ID=$(echo "$GROUP_ID" | xargs)
 USERNAME=$(echo "$USERNAME" | xargs)
 GROUPNAME=$(echo "$GROUPNAME" | xargs)
-CLIENT_PORT=$(echo "$CLIENT_PORT" | xargs)
 API_PORT=$(echo "$API_PORT" | xargs)
+CLIENT_PORT=$(echo "$CLIENT_PORT" | xargs)
 
 # Construct IMAGE_NAME
-IMAGE_NAME="${DOCKER_USER}/${COMPOSE_PROJECT_NAME}-web-api"
-
-# Copy Dockerfile from .docker/aspnet to root
-cp ".docker/aspnet/Dockerfile" Dockerfile
-
-# Configure the Dockerfile and replace ${PROJECT_NAME}
-sed -i "s/\${PROJECT_NAME}/${PROJECT_NAME}/g" Dockerfile
+IMAGE_NAME="${DOCKER_USER}/${COMPOSE_PROJECT_NAME}-client"
 
 # Execute docker build with environment variables
 docker build --no-cache \
@@ -42,10 +36,7 @@ docker build --no-cache \
     --build-arg GROUPNAME="${GROUPNAME}" \
     -t "${IMAGE_NAME}:latest" .
 
-# Push the image
 docker push "${IMAGE_NAME}:latest"
-
-# Copy .env to deployment directory
 cp .env .deployment/.env
 
 echo "Build completed successfully!"
