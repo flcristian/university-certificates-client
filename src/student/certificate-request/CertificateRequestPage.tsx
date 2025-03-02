@@ -11,7 +11,7 @@ export default function CertificateRequestPage() {
                 {!success ? (
                     <CertificateRequestForm onSuccess={() => setSuccess(true)}/>
                 ) : (
-                    <CertificateRequestCompleted onBack={() => setSuccess(true)}/>
+                    <CertificateRequestCompleted onBack={() => setSuccess(false)}/>
                 )}
             </div>
         </div>

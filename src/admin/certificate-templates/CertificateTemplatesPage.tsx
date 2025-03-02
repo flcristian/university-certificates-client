@@ -53,13 +53,13 @@ export default function CertificateTemplatesPage() {
             accessorKey: "description",
             header: "Description",
             cell: ({ row }) => {
-                const description = row.getValue("description") as string;
+                const description = row.original.description;
                 return (
                     <HoverCard>
-                        <HoverCardTrigger className="cursor-pointer">{description.substring(0, 30)}</HoverCardTrigger>
+                        <HoverCardTrigger className="cursor-pointer">{description != null ? description.substring(0, 30) : "No description"}</HoverCardTrigger>
                         <HoverCardContent className="border-2 w-80 bg-zinc-900 text-zinc-100">
                             <p className="text-sm break-words whitespace-normal">
-                                {description}
+                                {description != null ? description : "No description"}
                             </p>
                         </HoverCardContent>
                     </HoverCard>
